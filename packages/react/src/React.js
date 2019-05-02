@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// react的版本号
 import ReactVersion from 'shared/ReactVersion';
+
+// 标识react的符号类型
 import {
   REACT_CONCURRENT_MODE_TYPE,
   REACT_FRAGMENT_TYPE,
@@ -13,21 +16,39 @@ import {
   REACT_STRICT_MODE_TYPE,
   REACT_SUSPENSE_TYPE,
 } from 'shared/ReactSymbols';
+
+// 是否支持hooks，16.6hooks只是一个简单的api
 import {enableHooks} from 'shared/ReactFeatureFlags';
 
+// class component的两种创建方式
 import {Component, PureComponent} from './ReactBaseClasses';
+// create ref方法
 import {createRef} from './ReactCreateRef';
+
+// 操作React.Children的几种方法
 import {forEach, map, count, toArray, only} from './ReactChildren';
+
+// reactElement的几种类型
 import {
   createElement,
   createFactory,
   cloneElement,
   isValidElement,
 } from './ReactElement';
+
+// context api
 import {createContext} from './ReactContext';
+
+// 好像是和异步加载有关的？
 import {lazy} from './ReactLazy';
+
+// 在组件中创建ref，传递作用
 import forwardRef from './forwardRef';
+
+// memo api， 函数版的purecomponent?
 import memo from './memo';
+
+// hooks相关的api
 import {
   useCallback,
   useContext,
@@ -39,12 +60,18 @@ import {
   useRef,
   useState,
 } from './ReactHooks';
+
+// 做检查的，判断元素是否合法
 import {
   createElementWithValidation,
   createFactoryWithValidation,
   cloneElementWithValidation,
 } from './ReactElementValidator';
+
+// 感觉要涉及reconciler,稍后再读？
 import ReactSharedInternals from './ReactSharedInternals';
+
+// 是否启用 ConcurrentMode
 import {enableStableConcurrentModeAPIs} from 'shared/ReactFeatureFlags';
 
 const React = {
@@ -76,6 +103,7 @@ const React = {
 
   version: ReactVersion,
 
+  // 异步渲染的东西，暂时还没正式开始支持
   unstable_ConcurrentMode: REACT_CONCURRENT_MODE_TYPE,
   unstable_Profiler: REACT_PROFILER_TYPE,
 
@@ -87,6 +115,7 @@ const React = {
 // don't modify the React object to avoid deopts.
 // Also let's not expose their names in stable builds.
 
+// 支持currentMode之后导入这些api
 if (enableStableConcurrentModeAPIs) {
   React.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
   React.Profiler = REACT_PROFILER_TYPE;
@@ -94,6 +123,7 @@ if (enableStableConcurrentModeAPIs) {
   React.unstable_Profiler = undefined;
 }
 
+// 是否支持hooks，支持hooks导入这些api
 if (enableHooks) {
   React.useCallback = useCallback;
   React.useContext = useContext;
