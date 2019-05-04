@@ -50,8 +50,11 @@ function escapeUserProvidedKey(text) {
   return ('' + text).replace(userProvidedKeyEscapeRegex, '$&/');
 }
 
+// traverseContextPool的最大值
 const POOL_SIZE = 10;
 const traverseContextPool = [];
+
+// 获取traverseContext
 function getPooledTraverseContext(
   mapResult,
   keyPrefix,
@@ -77,6 +80,7 @@ function getPooledTraverseContext(
   }
 }
 
+// 如果contextPool小于10，就创建新的traverseContext，保证
 function releaseTraverseContext(traverseContext) {
   traverseContext.result = null;
   traverseContext.keyPrefix = null;

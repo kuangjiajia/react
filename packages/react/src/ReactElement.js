@@ -13,6 +13,7 @@ import ReactCurrentOwner from './ReactCurrentOwner';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+// 不需要导入props的属性
 const RESERVED_PROPS = {
   key: true,
   ref: true,
@@ -22,6 +23,7 @@ const RESERVED_PROPS = {
 
 let specialPropKeyWarningShown, specialPropRefWarningShown;
 
+// 判断ref属性是否合法
 function hasValidRef(config) {
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'ref')) {
@@ -34,6 +36,7 @@ function hasValidRef(config) {
   return config.ref !== undefined;
 }
 
+// 判断key是否合法
 function hasValidKey(config) {
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'key')) {
@@ -179,15 +182,20 @@ export function createElement(type, config, children) {
   let self = null;
   let source = null;
 
+  // 导入config
   if (config != null) {
+    // ref合法
     if (hasValidRef(config)) {
       ref = config.ref;
     }
+    // key合法
     if (hasValidKey(config)) {
       key = '' + config.key;
     }
 
+    // self合法，获取self
     self = config.__self === undefined ? null : config.__self;
+    // source合法，获取source
     source = config.__source === undefined ? null : config.__source;
     // Remaining properties are added to a new props object
     for (propName in config) {
@@ -202,10 +210,13 @@ export function createElement(type, config, children) {
 
   // Children can be more than one argument, and those are transferred onto
   // the newly allocated props object.
+  // children的长度
   const childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
+    // 单个孩子的处理方式，直接当children
     props.children = children;
   } else if (childrenLength > 1) {
+    // 多个孩子的处理方式，导入为数组，感觉后续可以用es6进行优化
     const childArray = Array(childrenLength);
     for (let i = 0; i < childrenLength; i++) {
       childArray[i] = arguments[i + 2];
